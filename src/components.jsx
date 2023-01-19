@@ -38,7 +38,7 @@ export function Display({ displaySetter }) {
 
   useEffect(() => {
     displaySetter(setValue);
-  }, [displayValue, setValue]);
+  }, [displayValue, setValue, displaySetter]);
   return (
     <div className="w-full flex items-center px-2 text-5xl overflow-x-auto bg-slate-200 h-full rounded-lg">
       {displayValue}
