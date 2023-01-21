@@ -21,62 +21,53 @@ function App() {
   };
 
   const handleOperation = (operation) => {
-    switch (operation) {
-      case "plus":
-        if (isPreviousNumberSet) {
+    if (isPreviousNumberSet) {
+      switch (operation) {
+        case "plus":
           previousNumber =
             "" + (parseFloat(previousNumber) + parseFloat(stringDisplayNumber));
           stringDisplayNumber = "0";
           displaySetter(stringDisplayNumber);
-        } else {
-          previousNumIsSet(operation);
-        }
-        break;
-      case "minus":
-        if (isPreviousNumberSet) {
+          break;
+
+        case "minus":
           previousNumber =
             "" + (parseFloat(previousNumber) - parseFloat(stringDisplayNumber));
           stringDisplayNumber = "0";
           displaySetter(stringDisplayNumber);
-        } else {
-          previousNumIsSet(operation);
-        }
-        break;
-      case "multiply":
-        if (isPreviousNumberSet) {
+          break;
+
+        case "multiply":
           previousNumber =
             "" + parseFloat(previousNumber) * parseFloat(stringDisplayNumber);
           stringDisplayNumber = "0";
           displaySetter(stringDisplayNumber);
-        } else {
-          previousNumIsSet(operation);
-        }
-        break;
-      case "divide":
-        if (isPreviousNumberSet) {
+          break;
+
+        case "divide":
           previousNumber =
             "" + parseFloat(previousNumber) / parseFloat(stringDisplayNumber);
           stringDisplayNumber = "0";
           displaySetter(stringDisplayNumber);
-        } else {
-          previousNumIsSet(operation);
-        }
-        break;
-      case "equals":
-        if (isPreviousNumberSet) {
+          break;
+
+        case "equals":
           handleOperation(lastRegisteredOperation);
           stringDisplayNumber = previousNumber;
           displaySetter(stringDisplayNumber);
           lastRegisteredOperation = "";
           previousNumber = "0";
           isPreviousNumberSet = false;
-        } else {
-          return;
-        }
-        break;
-      default:
-        console.log("default ran");
-        break;
+          break;
+
+        default:
+          console.log("default ran");
+          break;
+      }
+    } else if (!isPreviousNumberSet && operation === "equals") {
+      return;
+    } else {
+      previousNumIsSet(operation);
     }
   };
 
