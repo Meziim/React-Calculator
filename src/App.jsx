@@ -2,8 +2,8 @@ import { BtnComponent, Display } from "./components";
 import "./index.css";
 
 function App() {
-  var displayNumber = 0;
-  var previousNumber = 0;
+  let stringDisplayNumber = "0";
+  var previousNumber = "0";
   var isPreviousNumberSet = false;
   var displaySetter = null;
   var lastRegisteredOperation = "";
@@ -12,82 +12,67 @@ function App() {
     displaySetter = setDisplayFromChild;
   };
 
+  const previousNumIsSet = (operation) => {
+    previousNumber = stringDisplayNumber;
+    isPreviousNumberSet = true;
+    lastRegisteredOperation = operation;
+    stringDisplayNumber = "0";
+    displaySetter(stringDisplayNumber);
+  };
+
   const handleOperation = (operation) => {
     switch (operation) {
       case "plus":
         if (isPreviousNumberSet) {
-          previousNumber = previousNumber + displayNumber;
-          displayNumber = 0;
-          lastRegisteredOperation = operation;
-          displaySetter(displayNumber);
-          isPreviousNumberSet = true;
-          console.log(displayNumber, previousNumber);
+          previousNumber =
+            "" + (parseFloat(previousNumber) + parseFloat(stringDisplayNumber));
+          stringDisplayNumber = "0";
+          displaySetter(stringDisplayNumber);
         } else {
-          previousNumber = displayNumber;
-          displayNumber = 0;
-          lastRegisteredOperation = operation;
-          displaySetter(displayNumber);
-          isPreviousNumberSet = true;
-          console.log(displayNumber, previousNumber);
+          previousNumIsSet(operation);
         }
         break;
       case "minus":
         if (isPreviousNumberSet) {
-          previousNumber = previousNumber - displayNumber;
-          displayNumber = 0;
-          lastRegisteredOperation = operation;
-          displaySetter(displayNumber);
-          isPreviousNumberSet = true;
-          console.log(displayNumber, previousNumber);
+          previousNumber =
+            "" + (parseFloat(previousNumber) - parseFloat(stringDisplayNumber));
+          stringDisplayNumber = "0";
+          displaySetter(stringDisplayNumber);
         } else {
-          previousNumber = displayNumber;
-          displayNumber = 0;
-          lastRegisteredOperation = operation;
-          displaySetter(displayNumber);
-          isPreviousNumberSet = true;
-          console.log(displayNumber, previousNumber);
+          previousNumIsSet(operation);
         }
         break;
       case "multiply":
         if (isPreviousNumberSet) {
-          previousNumber = previousNumber * displayNumber;
-          displayNumber = 0;
-          lastRegisteredOperation = operation;
-          displaySetter(displayNumber);
-          isPreviousNumberSet = true;
-          console.log(displayNumber, previousNumber);
+          previousNumber =
+            "" + parseFloat(previousNumber) * parseFloat(stringDisplayNumber);
+          stringDisplayNumber = "0";
+          displaySetter(stringDisplayNumber);
         } else {
-          previousNumber = displayNumber;
-          displayNumber = 0;
-          lastRegisteredOperation = operation;
-          displaySetter(displayNumber);
-          isPreviousNumberSet = true;
-          console.log(displayNumber, previousNumber);
+          previousNumIsSet(operation);
         }
         break;
       case "divide":
         if (isPreviousNumberSet) {
-          previousNumber = previousNumber / displayNumber;
-          displayNumber = 0;
-          lastRegisteredOperation = operation;
-          displaySetter(displayNumber);
-          isPreviousNumberSet = true;
-          console.log(displayNumber, previousNumber);
+          previousNumber =
+            "" + parseFloat(previousNumber) / parseFloat(stringDisplayNumber);
+          stringDisplayNumber = "0";
+          displaySetter(stringDisplayNumber);
         } else {
-          previousNumber = displayNumber;
-          displayNumber = 0;
-          lastRegisteredOperation = operation;
-          displaySetter(displayNumber);
-          isPreviousNumberSet = true;
-          console.log(displayNumber, previousNumber);
+          previousNumIsSet(operation);
         }
         break;
       case "equals":
-        handleOperation(lastRegisteredOperation);
-        displayNumber = previousNumber;
-        previousNumber = 0;
-        isPreviousNumberSet = false;
-        displaySetter(displayNumber);
+        if (isPreviousNumberSet) {
+          handleOperation(lastRegisteredOperation);
+          stringDisplayNumber = previousNumber;
+          displaySetter(stringDisplayNumber);
+          lastRegisteredOperation = "";
+          previousNumber = "0";
+          isPreviousNumberSet = false;
+        } else {
+          return;
+        }
         break;
       default:
         console.log("default ran");
@@ -96,27 +81,30 @@ function App() {
   };
 
   const appendNumber = (number) => {
-    let displayNumberString = "" + displayNumber + number;
-    console.log(displayNumberString);
-    displayNumber = parseFloat(displayNumberString);
-    displaySetter(displayNumber);
+    if (stringDisplayNumber === "0") {
+      stringDisplayNumber = "" + number;
+      displaySetter(stringDisplayNumber);
+    } else {
+      stringDisplayNumber = stringDisplayNumber + number;
+      displaySetter(stringDisplayNumber);
+    }
   };
 
   const clearData = () => {
-    previousNumber = 0;
-    displayNumber = 0;
-    isPreviousNumberSet = false;
+    stringDisplayNumber = "0";
     lastRegisteredOperation = "";
-    displaySetter(displayNumber);
+    isPreviousNumberSet = false;
+    previousNumber = "0";
+    displaySetter(stringDisplayNumber);
   };
 
   const deleteNumber = () => {
-    if (displayNumber.toString().length > 1) {
-      displayNumber = parseInt(displayNumber.toString().slice(0, -1));
-      displaySetter(displayNumber);
+    if (stringDisplayNumber.length > 1) {
+      stringDisplayNumber = stringDisplayNumber.slice(0, -1);
+      displaySetter(stringDisplayNumber);
     } else {
-      displayNumber = 0;
-      displaySetter(displayNumber);
+      stringDisplayNumber = "0";
+      displaySetter(stringDisplayNumber);
     }
   };
 
@@ -214,7 +202,7 @@ function App() {
               />
               <BtnComponent
                 btnType={"number"}
-                digit={","}
+                digit={"."}
                 handleClick={(number) => appendNumber(number)}
               />
               <BtnComponent
