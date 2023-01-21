@@ -12,13 +12,32 @@ function App() {
     displaySetter = setDisplayFromChild;
   };
 
-  // const previousNumIsNotSet = (operation) => {
-  //   previousNumber = stringDisplayNumber;
-  //   isPreviousNumberSet = true;
-  //   lastRegisteredOperation = operation;
-  //   stringDisplayNumber = "0";
-  //   displaySetter(stringDisplayNumber);
-  // };
+  window.addEventListener("keydown", (e) => {
+    const numbers = "0123456789.";
+    if (numbers.includes(e.key)) {
+      appendNumber(e.key);
+    } else if (e.key === "*" || "+" || "-" || "/" || "Enter") {
+      switch (e.key) {
+        case "+":
+          handleClick("plus");
+          break;
+        case "-":
+          handleClick("minus");
+          break;
+        case "*":
+          handleClick("multiply");
+          break;
+        case "/":
+          handleClick("divide");
+          break;
+        case "Enter":
+          handleClick("equals");
+          break;
+        default:
+          break;
+      }
+    }
+  });
 
   const handleClick = (operation) => {
     if (isPreviousNumberSet) {
@@ -110,13 +129,13 @@ function App() {
             <div className="flex items-center justify-center h-full gap-2 w-full sm:w-fit">
               <button
                 onClick={deleteNumber}
-                className="bg-gradient-to-bl from-orange-400 to-orange-600 w-full sm:w-16 h-full rounded-lg drop-shadow-2xl"
+                className="bg-gradient-to-bl from-orange-400 to-orange-600 w-full sm:w-16 h-full rounded-lg drop-shadow-2xl active:scale-95 active:to-orange-400 duration-100"
               >
                 Del
               </button>
               <button
                 onClick={clearData}
-                className="bg-gradient-to-bl from-orange-400 to-orange-600 w-full sm:w-16 h-full rounded-lg drop-shadow-2xl"
+                className="bg-gradient-to-bl from-orange-400 to-orange-600 w-full sm:w-16 h-full rounded-lg drop-shadow-2xl active:scale-95 active:to-orange-400 duration-100"
               >
                 C
               </button>

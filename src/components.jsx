@@ -15,7 +15,7 @@ function NumberBtn({ digit, handleClick }) {
       onClick={() => {
         handleClick(digit);
       }}
-      className="flex-1 h-16 flex items-center justify-center bg-gradient-to-bl from-slate-300 to-slate-500 rounded-lg cursor-pointer"
+      className="flex-1 h-16 flex items-center justify-center bg-gradient-to-bl from-slate-300 to-slate-500 rounded-lg cursor-pointer duration-100 active:scale-95 active:to-slate-300"
     >
       {digit}
     </div>
@@ -25,8 +25,8 @@ function NumberBtn({ digit, handleClick }) {
 function ActionBtn({ digit, btnType, handleClick }) {
   return (
     <div
-      onClick={() => handleClick(btnType)}
-      className="flex-1 h-16 flex items-center text-white justify-center bg-gradient-to-bl rounded-lg from-blue-500 to-blue-800 cursor-pointer"
+      onClick={(e) => handleClick(btnType, e)}
+      className="flex-1 h-16 flex items-center text-white justify-center bg-gradient-to-bl rounded-lg from-blue-500 to-blue-800 cursor-pointer duration-100 active:scale-95 active:to-blue-500"
     >
       {digit}
     </div>
