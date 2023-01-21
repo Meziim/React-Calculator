@@ -104,21 +104,23 @@ function App() {
   return (
     <div className="App bg-gradient-to-bl from-cyan-900 to-slate-900 font-mono h-screen flex justify-center items-center">
       <div className="w-fit text-black">
-        <main className="w-128 text-3xl">
-          <section className="flex items-center justify-between h-16 gap-2">
+        <main className="sm:w-128 w-screen px-4 sm:px-0 text-3xl">
+          <section className="flex items-center justify-between h-32 sm:h-16 gap-2 sm:flex-row flex-col">
             <Display displaySetter={displayChange} />
-            <button
-              onClick={deleteNumber}
-              className="bg-gradient-to-bl from-orange-400 to-orange-600 w-16 h-full rounded-lg drop-shadow-2xl"
-            >
-              Del
-            </button>
-            <button
-              onClick={clearData}
-              className="bg-gradient-to-bl from-orange-400 to-orange-600 w-16 h-full rounded-lg drop-shadow-2xl"
-            >
-              C
-            </button>
+            <div className="flex items-center justify-center h-full gap-2 w-full sm:w-fit">
+              <button
+                onClick={deleteNumber}
+                className="bg-gradient-to-bl from-orange-400 to-orange-600 w-full sm:w-16 h-full rounded-lg drop-shadow-2xl"
+              >
+                Del
+              </button>
+              <button
+                onClick={clearData}
+                className="bg-gradient-to-bl from-orange-400 to-orange-600 w-full sm:w-16 h-full rounded-lg drop-shadow-2xl"
+              >
+                C
+              </button>
+            </div>
           </section>
           <section className="numpad flex flex-col gap-2 mt-2">
             <div className="row w-full flex justify-between items-center gap-2 h-16">
