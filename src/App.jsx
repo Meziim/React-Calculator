@@ -12,62 +12,64 @@ function App() {
     displaySetter = setDisplayFromChild;
   };
 
-  const previousNumIsSet = (operation) => {
-    previousNumber = stringDisplayNumber;
-    isPreviousNumberSet = true;
-    lastRegisteredOperation = operation;
-    stringDisplayNumber = "0";
-    displaySetter(stringDisplayNumber);
+  // const previousNumIsNotSet = (operation) => {
+  //   previousNumber = stringDisplayNumber;
+  //   isPreviousNumberSet = true;
+  //   lastRegisteredOperation = operation;
+  //   stringDisplayNumber = "0";
+  //   displaySetter(stringDisplayNumber);
+  // };
+
+  const handleClick = (operation) => {
+    if (isPreviousNumberSet) {
+      if (operation === "equals") {
+        stringDisplayNumber = handleOperation(
+          lastRegisteredOperation,
+          parseFloat(previousNumber),
+          parseFloat(stringDisplayNumber)
+        );
+        displaySetter(stringDisplayNumber);
+        previousNumber = "0";
+        isPreviousNumberSet = false;
+      } else {
+        previousNumber = handleOperation(
+          operation,
+          parseFloat(previousNumber),
+          parseFloat(stringDisplayNumber)
+        );
+        lastRegisteredOperation = operation;
+        stringDisplayNumber = "0";
+        displaySetter(stringDisplayNumber);
+      }
+    } else {
+      if (operation === "equals") {
+        return;
+      } else {
+        previousNumber = stringDisplayNumber;
+        lastRegisteredOperation = operation;
+        stringDisplayNumber = "0";
+        isPreviousNumberSet = true;
+        displaySetter(stringDisplayNumber);
+      }
+    }
   };
 
-  const handleOperation = (operation) => {
-    if (isPreviousNumberSet) {
-      switch (operation) {
-        case "plus":
-          previousNumber =
-            "" + (parseFloat(previousNumber) + parseFloat(stringDisplayNumber));
-          stringDisplayNumber = "0";
-          displaySetter(stringDisplayNumber);
-          break;
+  const handleOperation = (operation, opr1, opr2) => {
+    switch (operation) {
+      case "plus":
+        return opr1 + opr2;
 
-        case "minus":
-          previousNumber =
-            "" + (parseFloat(previousNumber) - parseFloat(stringDisplayNumber));
-          stringDisplayNumber = "0";
-          displaySetter(stringDisplayNumber);
-          break;
+      case "minus":
+        return opr1 - opr2;
 
-        case "multiply":
-          previousNumber =
-            "" + parseFloat(previousNumber) * parseFloat(stringDisplayNumber);
-          stringDisplayNumber = "0";
-          displaySetter(stringDisplayNumber);
-          break;
+      case "multiply":
+        return opr1 * opr2;
+      case "divide":
+        return opr1 / opr2;
 
-        case "divide":
-          previousNumber =
-            "" + parseFloat(previousNumber) / parseFloat(stringDisplayNumber);
-          stringDisplayNumber = "0";
-          displaySetter(stringDisplayNumber);
-          break;
-
-        case "equals":
-          handleOperation(lastRegisteredOperation);
-          stringDisplayNumber = previousNumber;
-          displaySetter(stringDisplayNumber);
-          lastRegisteredOperation = "";
-          previousNumber = "0";
-          isPreviousNumberSet = false;
-          break;
-
-        default:
-          console.log("default ran");
-          break;
-      }
-    } else if (!isPreviousNumberSet && operation === "equals") {
-      return;
-    } else {
-      previousNumIsSet(operation);
+      default:
+        console.log("default of handle operation ran");
+        break;
     }
   };
 
@@ -138,7 +140,7 @@ function App() {
               <BtnComponent
                 digit={"\u00F7"}
                 btnType={"divide"}
-                handleClick={(operation) => handleOperation(operation)}
+                handleClick={(operation) => handleClick(operation)}
               />
             </div>
             <div className="row w-full flex justify-between items-center gap-2 h-16">
@@ -160,7 +162,7 @@ function App() {
               <BtnComponent
                 digit={"\u2A09"}
                 btnType={"multiply"}
-                handleClick={(operation) => handleOperation(operation)}
+                handleClick={(operation) => handleClick(operation)}
               />
             </div>
             <div className="row w-full flex justify-between items-center gap-2 h-16">
@@ -182,7 +184,7 @@ function App() {
               <BtnComponent
                 digit={"\u2212"}
                 btnType={"minus"}
-                handleClick={(operation) => handleOperation(operation)}
+                handleClick={(operation) => handleClick(operation)}
               />
             </div>
             <div className="row w-full flex justify-between items-center gap-2 h-16">
@@ -199,12 +201,12 @@ function App() {
               <BtnComponent
                 digit={"\u003D"}
                 btnType={"equals"}
-                handleClick={(operation) => handleOperation(operation)}
+                handleClick={(operation) => handleClick(operation)}
               />
               <BtnComponent
                 digit={"\u002B"}
                 btnType={"plus"}
-                handleClick={(operation) => handleOperation(operation)}
+                handleClick={(operation) => handleClick(operation)}
               />
             </div>
           </section>
